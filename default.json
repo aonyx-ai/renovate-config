@@ -25,6 +25,12 @@
       "matchDepNames": ["rust-nightly"],
       "extends": ["schedule:weekly"],
       "updateNotScheduled": false
+    },
+    {
+      "description": "The mise manager reads only the first Rust pin in mise.toml, but the first Rust entry in mise.lock can be a different toolchain. A lockfile update then writes the newest release into that entry, so replace the pin instead.",
+      "matchManagers": ["mise"],
+      "matchDepNames": ["rust"],
+      "rangeStrategy": "replace"
     }
   ],
 
