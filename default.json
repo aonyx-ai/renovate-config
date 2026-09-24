@@ -19,6 +19,12 @@
       "matchPackageNames": ["renovate"],
       "extends": ["schedule:weekly"],
       "updateNotScheduled": false
+    },
+    {
+      "description": "A new nightly appears every day, so update its pin once a week.",
+      "matchDepNames": ["rust-nightly"],
+      "extends": ["schedule:weekly"],
+      "updateNotScheduled": false
     }
   ],
 
@@ -40,6 +46,25 @@
       "depNameTemplate": "rust",
       "lookupNameTemplate": "rust-lang/rust",
       "datasourceTemplate": "github-tags"
+    },
+    {
+      "description": "Move a nightly that mise pins by its date to the newest one with rustfmt, in mise.toml and mise.lock together.",
+      "customType": "regex",
+      "managerFilePatterns": ["mise.toml", "mise.lock"],
+      "matchStrings": ["nightly-(?<currentValue>\\d{4}-\\d{2}-\\d{2})"],
+      "depNameTemplate": "rust-nightly",
+      "datasourceTemplate": "custom.rust-nightly",
+      "versioningTemplate": "regex:^(?<major>\\d{4})-(?<minor>\\d{2})-(?<patch>\\d{2})$"
     }
-  ]
+  ],
+
+  "customDatasources": {
+    "rust-nightly": {
+      "defaultRegistryUrlTemplate": "https://rust-lang.github.io/rustup-components-history/x86_64-unknown-linux-gnu/rustfmt.json",
+      "format": "json",
+      "transformTemplates": [
+        "{ \"releases\": [{ \"version\": last_available }] }"
+      ]
+    }
+  }
 }
