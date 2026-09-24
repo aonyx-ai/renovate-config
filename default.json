@@ -12,6 +12,16 @@
     "enabled": true
   },
 
+  "packageRules": [
+    {
+      "description": "Renovate publishes several releases a day, so update its pin once a week.",
+      "matchDatasources": ["npm"],
+      "matchPackageNames": ["renovate"],
+      "extends": ["schedule:weekly"],
+      "updateNotScheduled": false
+    }
+  ],
+
   "customManagers": [
     {
       "customType": "regex",
