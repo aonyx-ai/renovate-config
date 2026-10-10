@@ -31,6 +31,12 @@
       "matchManagers": ["mise"],
       "matchDepNames": ["rust"],
       "rangeStrategy": "replace"
+    },
+    {
+      "description": "Rakko publishes no release to crates.io, so a harness depends on each of its crates by Git revision. Advance them in one pull request, because a harness that mixes two revisions does not build.",
+      "matchManagers": ["cargo"],
+      "matchPackageNames": ["https://github.com/aonyx-ai/rakko"],
+      "groupName": "rakko"
     }
   ],
 
@@ -61,6 +67,17 @@
       "depNameTemplate": "rust-nightly",
       "datasourceTemplate": "custom.rust-nightly",
       "versioningTemplate": "regex:^(?<major>\\d{4})-(?<minor>\\d{2})-(?<patch>\\d{2})$"
+    },
+    {
+      "description": "Update a version that a comment of the form `# renovate: datasource=... depName=...` annotates in a composite action or a workflow, such as the release of mise that jdx/mise-action installs. No manager reads the input of an action.",
+      "customType": "regex",
+      "managerFilePatterns": [
+        ".github/actions/*/action.yml",
+        ".github/workflows/*.yml"
+      ],
+      "matchStrings": [
+        "# renovate: datasource=(?<datasource>[a-zA-Z0-9-._]+?) depName=(?<depName>[^\\s]+?)(?: versioning=(?<versioning>[^\\s]+?))?(?: extractVersion=(?<extractVersion>[^\\s]+?))?\\s+version: [\"']?(?<currentValue>.+?)[\"']?\\s"
+      ]
     }
   ],
 
