@@ -33,6 +33,13 @@
       "rangeStrategy": "replace"
     },
     {
+      "description": "The mise manager looks oxlint up as the GitHub repository oxc-project/oxc/oxlint, which does not exist, so it never finds a release. Look its versions up on npm, where oxlint publishes the same releases.",
+      "matchManagers": ["mise"],
+      "matchDepNames": ["oxlint"],
+      "overrideDatasource": "npm",
+      "overridePackageName": "oxlint"
+    },
+    {
       "description": "Rakko publishes no release to crates.io, so a harness depends on each of its crates by Git revision. Advance them in one pull request, because a harness that mixes two revisions does not build.",
       "matchManagers": ["cargo"],
       "matchPackageNames": ["https://github.com/aonyx-ai/rakko"],
